@@ -3,7 +3,7 @@ import { Coord } from "./types";
 import {
   areCoordinatesValid,
   getChessNotationFromCoordinates,
-  getCoordinatesFromChessNotation,
+  getCoordinatesArrayFromChessNotation,
   isChessNotationValid,
 } from "./utils";
 
@@ -38,7 +38,7 @@ export default class Coordinate {
 
   private setFromChessNotation(notation: string): void {
     if (isChessNotationValid(notation)) {
-      const [xIndex, yIndex] = getCoordinatesFromChessNotation(notation);
+      const [xIndex, yIndex] = getCoordinatesArrayFromChessNotation(notation);
       this._x = xIndex;
       this._y = yIndex;
     } else {

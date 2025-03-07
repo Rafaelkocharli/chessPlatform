@@ -26,7 +26,7 @@ export function getRankIndex(rank: string): number {
   return +rank - 1;
 }
 
-export function getCoordinatesFromChessNotation(
+export function getCoordinatesArrayFromChessNotation(
   notation: string
 ): [number, number] {
   const fileIndex = getFileIndex(notation[0]);
