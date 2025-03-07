@@ -1,0 +1,33 @@
+.board {
+  width: 640px;
+  height: 640px;
+  border-collapse: collapse;
+  td {
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    font-size: 60px;
+  }
+  tr {
+    &:nth-child(2n) {
+      td {
+        &:nth-child(2n) {
+          background-color: #9ef690;
+        }
+        &:nth-child(2n + 1) {
+          background-color: #fff8ee;
+        }
+      }
+    }
+    &:nth-child(2n + 1) {
+      td {
+        &:nth-child(2n) {
+          background-color: #fff8ee;
+        }
+        &:nth-child(2n + 1) {
+          background-color: #9ef690;
+        }
+      }
+    }
+  }
+}
