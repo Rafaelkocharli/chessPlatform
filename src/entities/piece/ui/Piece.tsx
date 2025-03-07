@@ -1,22 +1,22 @@
-// abstract class IPiece {
-//     public abstract color: string;
-//     public abstract coordinate: [number, number];
-//     public abstract view: string;
-// }
-//
-// class Pawn extends IPiece {
-//     public color: string;
-//     public coordinate: [number, number];
-//     public view: string = 'p';
-//     constructor(color: string, coordinate: [number, number]) {
-//         super();
-//         this.color = color;
-//         this.coordinate = coordinate;
-//     }
-// }
+import { Pawn, Rook, Knight, Bishop, Queen, King } from "../model/piece";
+import { Color } from "../model/types";
 
-export function Piece() {
-    return (
-        <></>
-    );
+interface IProps {
+  name: "pawn" | "rook" | "knight" | "bishop" | "queen" | "king";
+  color: Color;
+}
+
+const PIECES = {
+  pawn: Pawn,
+  rook: Rook,
+  knight: Knight,
+  bishop: Bishop,
+  queen: Queen,
+  king: King,
+};
+
+export default function Piece({ name, color }: IProps) {
+  const piece = new PIECES[name](color);
+
+  return <div>{piece.notation}</div>;
 }
