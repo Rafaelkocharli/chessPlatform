@@ -1,27 +1,26 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface boardState {
-    board: string[][];
+  board: string[][];
 }
 
 const initialState: boardState = {
-    board: [
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', ''],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-    ],
-}
+  board: [
+    ["BR", "BN", "BB", "BQ", "BK", "BB", "BN", "BR"],
+    ["BP", "BP", "BP", "BP", "BP", "BP", "BP", "BP"],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["WP", "WP", "WP", "WP", "WP", "WP", "WP", "WP"],
+    ["WR", "WN", "WB", "WQ", "WK", "WB", "WN", "WR"],
+  ],
+};
 
 const boardSlice = createSlice({
-    name: 'board',
-    initialState,
-    reducers: {
-    }
-})
+  name: "board",
+  initialState,
+  reducers: {},
+});
 
-export default boardSlice
+export default boardSlice;
