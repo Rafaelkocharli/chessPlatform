@@ -1,32 +1,58 @@
-import { Pawn, Rook, Knight, Bishop, Queen, King } from "../model/piece";
-import { Color } from "../model/types";
 import Coordinate from "../../../shared/lib/coordinate/coordinate";
+import {
+    getAvailableBishopMoves, getAvailableKingMoves,
+    getAvailableKnightMoves,
+    getAvailablePawnMoves, getAvailableQueenMoves,
+    getAvailableRookMoves
+} from "../helpers.ts";
+import {useEffect} from "react";
 
 interface IProps {
-  index: string;
-  coordinates: Coordinate;
+    index: string;
+    callback: Function;
+    coordinate: Coordinate;
 }
 
-const PIECES = {
-  P: Pawn,
-  R: Rook,
-  N: Knight,
-  B: Bishop,
-  Q: Queen,
-  K: King,
-};
-type name = keyof typeof PIECES;
-
-function getColorAndNameFromIndex(index: string): [Color, name] {
-  const color = index[0] === "w" ? "white" : "black";
-  const name = index[1];
-  return [color, name as name];
+interface Piece {
+    black: string,
+    white: string,
+    getMoves: (coordinate: Coordinate, color: 'white' | 'black') => Coordinate[]
 }
 
-export default function Piece({ index, coordinates }: IProps) {
-  if (index === "") return <div></div>;
-  const [color, name] = getColorAndNameFromIndex(index);
-  const piece = new PIECES[name](color);
+interface IPiece {
+    P: Piece,
+    K: Piece,
+    N: Piece,
+    B: Piece,
+    R: Piece,
+    Q: Piece,
+}
 
-  return <div>{piece.notation}</div>;
+const PIECES: IPiece = {
+    P: {white: '♙', black: '♟', getMoves: (coordinate, color) => getAvailablePawnMoves(coordinate, color)},
+    K: {white: '♔', black: '♚', getMoves: (coordinate) => getAvailableKingMoves(coordinate)},
+    N: {white: '♘', black: '♞', getMoves: (coordinate) => getAvailableKnightMoves(coordinate)},
+    B: {white: '♗', black: '♝', getMoves: (coordinate) => getAvailableBishopMoves(coordinate)},
+    R: {white: '♖', black: '♜', getMoves: (coordinate) => getAvailableRookMoves(coordinate)},
+    Q: {white: '♕', black: '♛', getMoves: (coordinate) => getAvailableQueenMoves(coordinate)}
+}
+
+function getColorAndNameFromIndex(index: string): [string, string, boolean] {
+    const color = index[0] === "W" ? "white" : "black";
+    const name = index[1];
+    const isSelected = index.includes('S');
+    return [color, name, isSelected];
+}
+
+export default function Piece({index, callback, coordinate}: IProps) {
+    useEffect(() => {
+        callback(getAvailableKnightMoves(coordinate))
+    }, []);
+    if (index === "") return <div></div>;
+    const [color, name, isSelected] = getColorAndNameFromIndex(index);
+    //@ts-expect-error ytf
+    const piece = PIECES[name]
+
+
+    return <div>{piece[color]} {isSelected}</div>;
 }

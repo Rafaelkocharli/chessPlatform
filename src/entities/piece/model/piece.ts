@@ -1,72 +1,94 @@
-import { Color } from "./types";
+import Coordinate from "../../../shared/lib/coordinate";
 
-export abstract class Piece {
-  public abstract color: Color;
-  public abstract notation: string;
+type TNotation = 'R' | 'Q' | 'K' | 'N' | 'B' | 'P' | 'E';
+type TColor = 'WHITE' | 'BLACK';
+
+abstract class Piece {
+    public coordinate: Coordinate;
+
+    public abstract notation: TNotation;
+    public abstract unicode: string;
+    public abstract color: TColor;
+
+    constructor(coordinate: Coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public abstract getPossibleMoves(): Coordinate[]
 }
 
-export class Pawn extends Piece {
-  public color: Color;
-  public notation: string;
+abstract class Knight extends Piece {
+    public notation: TNotation = 'N';
 
-  constructor(color: Color) {
-    super();
-    this.color = color;
-    this.notation = "P";
-  }
+    public getPossibleMoves(): Coordinate[] {
+        const result: Coordinate[] = []
+        const possibleAxis = [
+            [-1, 2],
+            [1, 2],
+            [-1, -2],
+            [1, -2],
+            [-2, 1],
+            [2, 1],
+            [-2, -1],
+            [2, -1],
+        ]
+
+        for (let i = 0; i < possibleAxis.length; i++) {
+            const axis = possibleAxis[i];
+            const x = this.coordinate.x + axis[0];
+            const y = this.coordinate.y + axis[1];
+
+            if (!(x > 7 || x < 0 || y < 0 || y > 7)) {
+                result.push(new Coordinate(x, y));
+            }
+        }
+        return result;
+    }
 }
 
-export class Knight extends Piece {
-  public color: Color;
-  public notation: string;
+class WhiteKnight extends Knight {
+    public unicode: string = '♘';
+    public color: TColor = 'WHITE';
 
-  constructor(color: Color) {
-    super();
-    this.color = color;
-    this.notation = "N";
-  }
+    constructor(coordinate: Coordinate) {
+        super(coordinate);
+    }
 }
 
-export class Bishop extends Piece {
-  public color: Color;
-  public notation: string;
+class BlackKnight extends Knight {
+    public unicode: string = '♞';
+    public color: TColor = 'BLACK';
 
-  constructor(color: Color) {
-    super();
-    this.color = color;
-    this.notation = "B";
-  }
+    constructor(coordinate: Coordinate) {
+        super(coordinate);
+    }
 }
 
-export class Rook extends Piece {
-  public color: Color;
-  public notation: string;
+// export class WhitePawn extends Piece {}
+// export class WhiteKing extends Piece {}
+// export class WhiteRook extends Piece {}
+// export class WhiteQueen extends Piece {}
+// export class WhiteBishop extends Piece {}
 
-  constructor(color: Color) {
-    super();
-    this.color = color;
-    this.notation = "R";
-  }
+
+// export class BlackPawn extends Piece {}
+// export class BlackKing extends Piece {}
+// export class BlackRook extends Piece {}
+// export class BlackQueen extends Piece {}
+// export class BlackBishop extends Piece {}
+
+abstract class AbstractFactory {
+    public abstract createKnight(coordinate: Coordinate): Knight
 }
 
-export class Queen extends Piece {
-  public color: Color;
-  public notation: string;
-
-  constructor(color: Color) {
-    super();
-    this.color = color;
-    this.notation = "Q";
-  }
+export class WhiteFactory extends AbstractFactory {
+    public createKnight(coordinate: Coordinate): Knight {
+        return new WhiteKnight(coordinate);
+    }
 }
 
-export class King extends Piece {
-  public color: Color;
-  public notation: string;
-
-  constructor(color: Color) {
-    super();
-    this.color = color;
-    this.notation = "K";
-  }
+export class BlackFactory extends AbstractFactory {
+    public createKnight(coordinate: Coordinate): Knight {
+        return new BlackKnight(coordinate);
+    }
 }

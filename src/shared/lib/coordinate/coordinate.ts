@@ -86,4 +86,8 @@ export default class Coordinate {
   public set chessNotation(notation: string) {
     this.setFromChessNotation(notation);
   }
+
+  public clone() {
+    return new Coordinate(this._x, this._y);
+  }
 }
