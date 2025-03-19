@@ -1,7 +1,8 @@
 import Coordinate from "../../../shared/lib/coordinate";
 
 type TNotation = 'R' | 'Q' | 'K' | 'N' | 'B' | 'P' | 'E';
-type TColor = 'WHITE' | 'BLACK';
+type TColor = 'WHITE' | 'BLACK' | null;
+type TPiece = Piece[][];
 
 abstract class Piece {
     public coordinate: Coordinate;
@@ -46,6 +47,20 @@ abstract class Knight extends Piece {
     }
 }
 
+class Empty extends Piece {
+    public notation: TNotation = 'E';
+    public unicode: string = ' ';
+    public color: TColor = null;
+
+    constructor(coordinate: Coordinate) {
+        super(coordinate);
+    }
+
+    getPossibleMoves(): Coordinate[] {
+        return [];
+    }
+}
+
 class WhiteKnight extends Knight {
     public unicode: string = '♘';
     public color: TColor = 'WHITE';
@@ -81,14 +96,17 @@ abstract class AbstractFactory {
     public abstract createKnight(coordinate: Coordinate): Knight
 }
 
-export class WhiteFactory extends AbstractFactory {
+class WhiteFactory extends AbstractFactory {
     public createKnight(coordinate: Coordinate): Knight {
         return new WhiteKnight(coordinate);
     }
 }
 
-export class BlackFactory extends AbstractFactory {
+class BlackFactory extends AbstractFactory {
     public createKnight(coordinate: Coordinate): Knight {
         return new BlackKnight(coordinate);
     }
 }
+
+export {WhiteFactory, BlackFactory, Piece, Empty};
+export type {TPiece};

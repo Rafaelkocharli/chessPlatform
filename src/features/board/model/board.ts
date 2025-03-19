@@ -1,10 +1,10 @@
-import {Piece} from '../../../entities/piece/model/piece'
 import Coordinate from "../../../shared/lib/coordinate";
+import {Piece, TPiece} from "../../../entities/"
 
 export class Board {
-    private _view: Piece[][];
+    private _view: TPiece;
 
-    constructor(view: Piece[][]) {
+    constructor(view: TPiece) {
         this._view = view;
     }
 
