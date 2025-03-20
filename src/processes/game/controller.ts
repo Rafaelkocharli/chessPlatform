@@ -10,6 +10,15 @@ const PIECES: {[key: string]: (coordinate: Coordinate) => Piece} = {
     BN: (coordinate: Coordinate) => blackFactory.createKnight(coordinate)
 }
 
-function initBoardFromMatrix(matrix :string[][]): TPiece {
+export function initBoardFromMatrix(matrix: string[][]): TPiece {
+    const result: TPiece = [];
 
+    for (let i = 0; i < matrix.length; i++) {
+        result.push([])
+        for (let j = 0; j < matrix[i].length; j++) {
+            result[i].push(PIECES[matrix[i][j]](new Coordinate(i, j)));
+        }
+    }
+
+    return result;
 }
