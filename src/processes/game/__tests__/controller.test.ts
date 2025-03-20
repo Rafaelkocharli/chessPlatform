@@ -14,6 +14,7 @@ describe('Controller module tests', () => {
         ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'E',],
     ]
 
+
     const whiteFactory = new WhiteFactory();
 
     test("initBoardFromMatrix function test", () => {
